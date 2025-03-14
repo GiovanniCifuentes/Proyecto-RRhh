@@ -1,7 +1,9 @@
 package vista;
 
+import controlador.CVControlador;
 import controlador.UsuariosControlador;
 import vista.empleadoAltaVista;
+import modelo.CVModelo;
 import modelo.EmpleadoDAO;
 import modelo.empleadoAlta;
 import controlador.UsuariosControlador;
@@ -47,6 +49,7 @@ public class General extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuAdminComunicacion;
     private javax.swing.JMenuItem mnuAdminDocumentacion;
     private javax.swing.JMenuItem mnuAdminCapacitacion;
+    private javax.swing.JMenuItem mnuCVs;
 
     // Menú de Ayuda
     private javax.swing.JMenu mnuAyudas;
@@ -126,6 +129,7 @@ public class General extends javax.swing.JFrame {
         mnuAdminComunicacion = new JMenuItem("Comunicación Interna");
         mnuAdminDocumentacion = new JMenuItem("Documentación");
         mnuAdminCapacitacion = new JMenuItem("Capacitación y Desarrollo");
+        mnuCVs = new JMenuItem("Gestión de Curriculum Vitae");
     
         // Menú de Ayuda
         mnuAyudas = new JMenu("Ayuda");
@@ -217,10 +221,12 @@ public class General extends javax.swing.JFrame {
         mnuAdminComunicacion.addActionListener(this::mnuAdminComunicacionActionPerformed);
         mnuAdminDocumentacion.addActionListener(this::mnuAdminDocumentacionActionPerformed);
         mnuAdminCapacitacion.addActionListener(this::mnuAdminCapacitacionActionPerformed);
+        mnuCVs.addActionListener(this::mnuCVsActionPerformed);
     
         mnuAdmin.add(mnuAdminComunicacion);
         mnuAdmin.add(mnuAdminDocumentacion);
         mnuAdmin.add(mnuAdminCapacitacion);
+        mnuAdmin.add(mnuCVs);
     
         jMenuBar1.add(mnuAdmin);
     
@@ -323,6 +329,29 @@ public class General extends javax.swing.JFrame {
 
     private void mnuAdminCapacitacionActionPerformed(java.awt.event.ActionEvent evt) {
         System.out.println("Abrir módulo de capacitación y desarrollo");
+    }
+
+    private void mnuCVsActionPerformed(java.awt.event.ActionEvent evt) {
+        // Instancias de la vista, modelo y controlador
+        CVVista vista = new CVVista();  // Asegúrate de que CVVista sea un JInternalFrame
+        CVModelo modelo = new CVModelo();
+        CVControlador controlador = new CVControlador(modelo, vista);
+    
+        // Configuración de la vista
+        vista.setSize(800, 600); // Define un tamaño para la vista
+        vista.setVisible(true);
+    
+        // Agregar la vista al JDesktopPane
+        jDesktopPane1.add(vista); // Asegúrate de que jDesktopPane1 esté inicializado y visible
+    
+        // Centrar la vista en el JDesktopPane
+        Dimension desktopSize = jDesktopPane1.getSize();
+        Dimension frameSize = vista.getSize();
+        vista.setLocation((desktopSize.width - frameSize.width) / 2, 
+                          (desktopSize.height - frameSize.height) / 2);
+    
+        // Opcional: Configurar el cierre de la vista
+        vista.setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
     }
 
     private void mnuUsuariosRHActionPerformed(java.awt.event.ActionEvent evt) {

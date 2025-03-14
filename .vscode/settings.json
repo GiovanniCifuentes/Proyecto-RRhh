@@ -2,6 +2,9 @@
     "java.project.sourcePaths": ["src"],
     "java.project.outputPath": "bin",
     "java.project.referencedLibraries": [
-        "lib/**/*.jar"
-    ]
+    "lib/*.jar",
+    "lib/pdfbox-3.0.4.jar"
+],
+"java.configuration.updateBuildConfiguration": "interactive"
+
 }
