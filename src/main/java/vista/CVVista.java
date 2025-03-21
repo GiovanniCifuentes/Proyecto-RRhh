@@ -171,21 +171,19 @@ public class CVVista extends JFrame {
         if (filaSeleccionada >= 0) {
             int idPDF = (int) modeloTabla.getValueAt(filaSeleccionada, 0);
             String nombrePDF = txtNombrePDF.getText();
-
-            if (!nombrePDF.isEmpty()) {
-                // Simulación de archivo PDF (debes implementar la lectura del archivo)
-                byte[] archivoPDF = new byte[0];
-
-                // Modificar documento a través del controlador
-                controlador.modificarDocumento(idPDF, nombrePDF, archivoPDF);
-
+    
+            if (!nombrePDF.isEmpty() && this.archivoPDF != null) { // Verifica que el archivo no sea nulo
+                // Usar el archivo PDF seleccionado
+                controlador.modificarDocumento(idPDF, nombrePDF, this.archivoPDF);
+    
                 // Recargar documentos en la tabla
                 cargarDocumentos();
-
-                // Limpiar campo de texto
+    
+                // Limpiar campo de texto y archivo seleccionado
                 txtNombrePDF.setText("");
+                this.archivoPDF = null;
             } else {
-                JOptionPane.showMessageDialog(this, "El nombre del PDF no puede estar vacío.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Debe ingresar un nombre y seleccionar un archivo PDF.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } else {
             JOptionPane.showMessageDialog(this, "Seleccione un documento para modificar.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -229,9 +227,10 @@ private void visualizarPDF() {
         int idPDF = (int) modeloTabla.getValueAt(filaSeleccionada, 0);
 
         // Obtener el archivo PDF desde el controlador
-        byte[] archivoPDFBytes = controlador.obtenerArchivoPDF(idPDF); // Cambio de nombre de la variable
+        byte[] archivoPDFBytes = controlador.obtenerArchivoPDF(idPDF);
 
         if (archivoPDFBytes != null) {
+            System.out.println("Tamaño del archivo PDF: " + archivoPDFBytes.length + " bytes");
             try {
                 // Cargar el documento PDF directamente desde el arreglo de bytes
                 PDDocument document = Loader.loadPDF(archivoPDFBytes);

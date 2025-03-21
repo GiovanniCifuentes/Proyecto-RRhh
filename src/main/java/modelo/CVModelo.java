@@ -54,15 +54,43 @@ public class CVModelo {
 
     // Método para modificar un documento
     public void modificarDocumento(DocumentoPDFVO vo) {
-        String sql = "UPDATE DocumentosPDF SET nombrePDF = ?, archivoPDF = ? WHERE IdPDF = ?;";
-        try (Connection conn = conectar();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, vo.getNombrePDF());
-            ps.setBytes(2, vo.getArchivoPDF());
-            ps.setInt(3, vo.getIdPDF());
-            ps.executeUpdate();
+        Connection conn = null;
+        try {
+            conn = conectar();
+            conn.setAutoCommit(false); // Deshabilitar el auto-commit
+    
+            String sql = "UPDATE DocumentosPDF SET nombrePDF = ?, archivoPDF = ? WHERE IdPDF = ?;";
+            try (PreparedStatement ps = conn.prepareStatement(sql)) {
+                ps.setString(1, vo.getNombrePDF());
+                ps.setBytes(2, vo.getArchivoPDF());
+                ps.setInt(3, vo.getIdPDF());
+                int rowsUpdated = ps.executeUpdate();
+                if (rowsUpdated > 0) {
+                    System.out.println("Documento actualizado correctamente.");
+                } else {
+                    System.out.println("No se encontró el documento con ID: " + vo.getIdPDF());
+                }
+            }
+    
+            conn.commit(); // Confirmar la transacción
         } catch (SQLException ex) {
+            if (conn != null) {
+                try {
+                    conn.rollback(); // Revertir la transacción en caso de error
+                } catch (SQLException e) {
+                    System.out.println("Error al revertir la transacción: " + e.getMessage());
+                }
+            }
             System.out.println("Error al modificar documento: " + ex.getMessage());
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.setAutoCommit(true); // Restaurar el auto-commit
+                    conn.close();
+                } catch (SQLException e) {
+                    System.out.println("Error al cerrar la conexión: " + e.getMessage());
+                }
+            }
         }
     }
 

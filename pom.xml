@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -13,17 +12,43 @@
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
 
+    <!-- Agregar el repositorio de iText -->
+    <repositories>
+        <repository>
+            <id>itext-repo</id>
+            <url>https://repo.itextpdf.com/maven2/</url>
+        </repository>
+    </repositories>
+
     <dependencies>
+    <!-- Dependencia para Apache POI -->
     <dependency>
-    <groupId>org.apache.pdfbox</groupId>
-    <artifactId>pdfbox</artifactId>
-     <version>3.0.4</version>
+        <groupId>org.apache.poi</groupId>
+        <artifactId>poi-ooxml</artifactId>
+        <version>5.2.3</version>
     </dependency>
 
+    <!-- Dependencia para iText 7 -->
     <dependency>
-    <groupId>com.microsoft.sqlserver</groupId>
-    <artifactId>mssql-jdbc</artifactId>
-    <version>12.4.2.jre11</version> <!-- Asegúrate de usar la versión compatible con tu JDK -->
-</dependency>
+        <groupId>com.itextpdf</groupId>
+        <artifactId>itext7-core</artifactId>
+        <version>7.2.4</version>
+        <type>pom</type>
+    </dependency>
+
+    <!-- Dependencia para PDFBox -->
+    <dependency>
+        <groupId>org.apache.pdfbox</groupId>
+        <artifactId>pdfbox</artifactId>
+        <version>3.0.4</version>
+    </dependency>
+
+    <!-- Dependencia para Microsoft SQL Server JDBC -->
+    <dependency>
+        <groupId>com.microsoft.sqlserver</groupId>
+        <artifactId>mssql-jdbc</artifactId>
+        <version>12.4.2.jre11</version>
+    </dependency>
 </dependencies>
+
 </project>
