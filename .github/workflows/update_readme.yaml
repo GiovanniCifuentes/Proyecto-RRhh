@@ -23,6 +23,8 @@ jobs:
           python generar_readme.py
 
       - name: Commit & Push
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
