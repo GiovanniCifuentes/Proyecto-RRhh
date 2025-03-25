@@ -1,24 +1,25 @@
--- 1. Tablas de Catálogos o Maestros
+-- 1. Tablas de Catï¿½logos o Maestros
 CREATE TABLE Roles (
     IdRol INT PRIMARY KEY IDENTITY,
-    NombreRol VARCHAR(50) NOT NULL
+    NombreRol VARCHAR(50) NOT NULL,
+    SalarioRol VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE Usuarios (
     IdUsuario INT PRIMARY KEY IDENTITY,
     NombreUsuario VARCHAR(50) NOT NULL,
-	ContraseñaUsuario VARCHAR(50) NOT NULL
+	Contraseï¿½aUsuario VARCHAR(50) NOT NULL
 );
 
 INSERT INTO Roles (NombreRol) VALUES 
-('Administrador'),
-('Recursos Humanos'),
-('Contador'),
-('Desarrollador'),
-('Gerente'),
-('Asistente'),
-('Seguridad'),
-('Mantenimiento');
+('Administrador',5000),
+('Recursos Humanos',4000),
+('Contador',3000),
+('Desarrollador',8000),
+('Gerente',15000),
+('Asistente',2000),
+('Seguridad',5000),
+('Mantenimiento',6000);
 
 select * from roles;
 
@@ -44,7 +45,7 @@ CREATE TABLE Empleados (
     Estado VARCHAR(20) DEFAULT 'Activo'
 );
 
--- 3. Tabla de Nómina
+-- 3. Tabla de Nï¿½mina
 CREATE TABLE Nomina (
     IdNomina INT PRIMARY KEY IDENTITY,
     IdEmpleado INT FOREIGN KEY REFERENCES Empleados(IdEmpleado),
@@ -139,18 +140,55 @@ BEGIN
     VALUES (@IdEmpleado, 'Alta de empleado', GETDATE());
 END;
 
--- Procedimiento para Baja de Empleados
-CREATE PROCEDURE BajaEmpleado 
-    @IdEmpleado INT
+-- Procedimiento para Modificar empleado
+CREATE PROCEDURE ModificarEmpleado
+    @IdEmpleado INT,
+    @Nombre NVARCHAR(50),
+    @Apellido NVARCHAR(50),
+    @DPI NVARCHAR(20),
+    @FechaIngreso DATE,
+    @SalarioBase DECIMAL(10, 2),
+    @IdRol INT
 AS
 BEGIN
     UPDATE Empleados
-    SET Estado = 'Inactivo'
+    SET Nombre = @Nombre,
+        Apellido = @Apellido,
+        DPI = @DPI,
+        FechaIngreso = @FechaIngreso,
+        SalarioBase = @SalarioBase,
+        IdRol = @IdRol
     WHERE IdEmpleado = @IdEmpleado;
-
-    INSERT INTO HistorialLaboral (IdEmpleado, Cambio, FechaCambio)
-    VALUES (@IdEmpleado, 'Baja de empleado', GETDATE());
 END;
+
+-- Procedimiento para Eliminar empleado
+CREATE PROCEDURE EliminarEmpleado
+    @IdEmpleado INT
+AS
+BEGIN
+    DELETE FROM Empleados
+    WHERE IdEmpleado = @IdEmpleado;
+END;
+
+-- Procedimiento para Buscar Empleados
+CREATE PROCEDURE BuscarEmpleado
+    @IdEmpleado INT
+AS
+BEGIN
+	SELECT *
+    FROM Empleados
+    WHERE IdEmpleado = @IdEmpleado;
+END;
+
+
+-- Procedimiento para Mostrar Empleados
+CREATE PROCEDURE MostrarEmpleados
+AS
+BEGIN
+    SELECT * FROM Empleados;
+END;
+
+SELECT * FROM Empleados;
 
 -- Trigger para Registrar Cambios en el Historial Laboral
 CREATE TRIGGER trg_ActualizarHistorial

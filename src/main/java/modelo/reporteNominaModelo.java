@@ -1,5 +1,6 @@
 package modelo;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -87,50 +88,76 @@ public class reporteNominaModelo {
         private java.math.BigDecimal Deducciones;
         private java.math.BigDecimal TotalPagar;
 
-        // Getters y setters
+        // Método auxiliar para formatear cantidades monetarias
+        private String formatoMonetario(BigDecimal valor) {
+            if (valor == null) {
+                return "Q0.00";
+            }
+            // Formatea con 2 decimales, separador de miles y símbolo Q
+            return "Q" + String.format("%,.2f", valor);
+        }
+
+        // Getters formateados para cantidades monetarias
+        public String getSalarioBaseFormateado() { return formatoMonetario(SalarioBase); }
+        public String getSalarioFormateado() { return formatoMonetario(Salario); }
+        public String getComisionesFormateado() { return formatoMonetario(Comisiones); }
+        public String getBonificacionesFormateado() { return formatoMonetario(Bonificaciones); }
+        public String getValorHorasExtrasFormateado() { return formatoMonetario(ValorHorasExtras); }
+        public String getTotalDevengadoFormateado() { return formatoMonetario(TotalDevengado); }
+        public String getISRFormateado() { return formatoMonetario(ISR); }
+        public String getAnticiposFormateado() { return formatoMonetario(Anticipos); }
+        public String getJudicialesFormateado() { return formatoMonetario(Judiciales); }
+        public String getPrestamosFormateado() { return formatoMonetario(Prestamos); }
+        public String getIGSSFormateado() { return formatoMonetario(IGSS); }
+        public String getDeduccionesFormateado() { return formatoMonetario(Deducciones); }
+        public String getTotalPagarFormateado() { return formatoMonetario(TotalPagar); }
+
+        // Getters originales
         public int getIdEmpleado() { return IdEmpleado; }
-        public void setIdEmpleado(int idEmpleado) { IdEmpleado = idEmpleado; }
         public String getNombre() { return Nombre; }
-        public void setNombre(String nombre) { Nombre = nombre; }
         public String getApellido() { return Apellido; }
-        public void setApellido(String apellido) { Apellido = apellido; }
         public String getDPI() { return DPI; }
-        public void setDPI(String dPI) { DPI = dPI; }
         public java.sql.Date getFechaIngreso() { return FechaIngreso; }
-        public void setFechaIngreso(java.sql.Date fechaIngreso) { FechaIngreso = fechaIngreso; }
         public java.math.BigDecimal getSalarioBase() { return SalarioBase; }
-        public void setSalarioBase(java.math.BigDecimal salarioBase) { SalarioBase = salarioBase; }
         public String getEstado() { return Estado; }
-        public void setEstado(String estado) { Estado = estado; }
         public int getIdNomina() { return IdNomina; }
-        public void setIdNomina(int idNomina) { IdNomina = idNomina; }
         public java.sql.Date getFechaPago() { return FechaPago; }
-        public void setFechaPago(java.sql.Date fechaPago) { FechaPago = fechaPago; }
         public java.math.BigDecimal getSalario() { return Salario; }
-        public void setSalario(java.math.BigDecimal salario) { Salario = salario; }
         public int getHorasExtras() { return HorasExtras; }
-        public void setHorasExtras(int horasExtras) { HorasExtras = horasExtras; }
         public java.math.BigDecimal getComisiones() { return Comisiones; }
-        public void setComisiones(java.math.BigDecimal comisiones) { Comisiones = comisiones; }
         public java.math.BigDecimal getBonificaciones() { return Bonificaciones; }
-        public void setBonificaciones(java.math.BigDecimal bonificaciones) { Bonificaciones = bonificaciones; }
         public java.math.BigDecimal getValorHorasExtras() { return ValorHorasExtras; }
-        public void setValorHorasExtras(java.math.BigDecimal valorHorasExtras) { ValorHorasExtras = valorHorasExtras; }
         public java.math.BigDecimal getTotalDevengado() { return TotalDevengado; }
-        public void setTotalDevengado(java.math.BigDecimal totalDevengado) { TotalDevengado = totalDevengado; }
         public java.math.BigDecimal getISR() { return ISR; }
-        public void setISR(java.math.BigDecimal iSR) { ISR = iSR; }
         public java.math.BigDecimal getAnticipos() { return Anticipos; }
-        public void setAnticipos(java.math.BigDecimal anticipos) { Anticipos = anticipos; }
         public java.math.BigDecimal getJudiciales() { return Judiciales; }
-        public void setJudiciales(java.math.BigDecimal judiciales) { Judiciales = judiciales; }
         public java.math.BigDecimal getPrestamos() { return Prestamos; }
-        public void setPrestamos(java.math.BigDecimal prestamos) { Prestamos = prestamos; }
         public java.math.BigDecimal getIGSS() { return IGSS; }
-        public void setIGSS(java.math.BigDecimal iGSS) { IGSS = iGSS; }
         public java.math.BigDecimal getDeducciones() { return Deducciones; }
-        public void setDeducciones(java.math.BigDecimal deducciones) { Deducciones = deducciones; }
         public java.math.BigDecimal getTotalPagar() { return TotalPagar; }
+    
+        // Setters
+        public void setIdEmpleado(int idEmpleado) { IdEmpleado = idEmpleado; }
+        public void setNombre(String nombre) { Nombre = nombre; }
+        public void setApellido(String apellido) { Apellido = apellido; }
+        public void setDPI(String dpi) { DPI = dpi; }
+        public void setFechaIngreso(java.sql.Date fechaIngreso) { FechaIngreso = fechaIngreso; }
+        public void setSalarioBase(java.math.BigDecimal salarioBase) { SalarioBase = salarioBase; }
+        public void setEstado(String estado) { Estado = estado; }
+        public void setIdNomina(int idNomina) { IdNomina = idNomina; }
+        public void setFechaPago(java.sql.Date fechaPago) { FechaPago = fechaPago; }
+        public void setSalario(java.math.BigDecimal salario) { Salario = salario; }
+        public void setHorasExtras(int horasExtras) { HorasExtras = horasExtras; }
+        public void setComisiones(java.math.BigDecimal comisiones) { Comisiones = comisiones; }
+        public void setBonificaciones(java.math.BigDecimal bonificaciones) { Bonificaciones = bonificaciones; }
+        public void setValorHorasExtras(java.math.BigDecimal valorHorasExtras) { ValorHorasExtras = valorHorasExtras; }
+        public void setTotalDevengado(java.math.BigDecimal totalDevengado) { TotalDevengado = totalDevengado; }
+        public void setISR(java.math.BigDecimal isr) { ISR = isr; }
+        public void setAnticipos(java.math.BigDecimal anticipos) { Anticipos = anticipos; }
+        public void setJudiciales(java.math.BigDecimal judiciales) { Judiciales = judiciales; }
+        public void setPrestamos(java.math.BigDecimal prestamos) { Prestamos = prestamos; }
+        public void setIGSS(java.math.BigDecimal igss) { IGSS = igss; }
+        public void setDeducciones(java.math.BigDecimal deducciones) { Deducciones = deducciones; }
         public void setTotalPagar(java.math.BigDecimal totalPagar) { TotalPagar = totalPagar; }
     }
 }

@@ -21,7 +21,7 @@ public class Login extends JFrame {
 
     public Login() {
         initComponents();
-        ImageIcon image = new ImageIcon("src/icons/10612410.png");
+        ImageIcon image = new ImageIcon("bin/icons/10612410.png");
 
         // ***** Configuración de la ventana Login ******
         setTitle("Recursos humanos Empresa S.A.");

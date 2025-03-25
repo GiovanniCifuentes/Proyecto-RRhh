@@ -1,6 +1,10 @@
 package modelo;
 
-import java.sql.*;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class empleadoAlta {
     private static final String URL = "jdbc:sqlserver://localhost:1433;databaseName=RRHH;encrypt=true;trustServerCertificate=true";
@@ -18,19 +22,23 @@ public class empleadoAlta {
         
         try (Connection conexion = conectar();
              CallableStatement stmt = conexion.prepareCall(sql)) {
-
+    
             stmt.setString(1, nombre);
             stmt.setString(2, apellido);
             stmt.setString(3, dpi);
             stmt.setDate(4, Date.valueOf(fechaIngreso));
             stmt.setDouble(5, salarioBase);
             stmt.setInt(6, idRol);
-
-            int filasAfectadas = stmt.executeUpdate();
-            System.out.println("✅ Alta de empleado realizada. Filas afectadas: " + filasAfectadas);
+    
+            stmt.executeUpdate();
+            System.out.println("✅ Alta de empleado realizada correctamente");
         } catch (SQLException e) {
-            System.out.println("❌ Error al ejecutar la alta de empleado");
-            e.printStackTrace();
+            if (e.getMessage().contains("Violation of UNIQUE KEY constraint")) {
+                System.out.println("❌ Error: Ya existe un empleado con el DPI " + dpi);
+            } else {
+                System.out.println("❌ Error al ejecutar la alta de empleado");
+                e.printStackTrace();
+            }
         }
     }
 }

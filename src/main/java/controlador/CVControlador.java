@@ -1,7 +1,6 @@
 package controlador;
 
 import java.util.ArrayList;
-
 import modelo.CVModelo;
 import modelo.DocumentoPDFVO;
 import vista.CVVista;
@@ -32,23 +31,11 @@ public class CVControlador {
 
     // Método para modificar un documento
     public void modificarDocumento(int idPDF, String nombrePDF, byte[] archivoPDF) {
-        if (archivoPDF == null) {
-            System.out.println("Error: El archivo PDF es nulo.");
-            return;
-        }
         DocumentoPDFVO vo = new DocumentoPDFVO();
         vo.setIdPDF(idPDF);
         vo.setNombrePDF(nombrePDF);
         vo.setArchivoPDF(archivoPDF);
         modelo.modificarDocumento(vo);
-    
-        // Verificar si el PDF se actualizó correctamente
-        byte[] pdfActualizado = modelo.obtenerArchivoPDF(idPDF);
-        if (pdfActualizado != null) {
-            System.out.println("El PDF se actualizó correctamente.");
-        } else {
-            System.out.println("Error: No se pudo recuperar el PDF actualizado.");
-        }
     }
 
     // Método para eliminar un documento

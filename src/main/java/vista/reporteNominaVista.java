@@ -25,7 +25,7 @@ import org.apache.pdfbox.pdmodel.font.Standard14Fonts;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook; 
 
 import modelo.reporteNominaModelo;
 import modelo.reporteNominaModelo.ReporteNomina;
@@ -108,28 +108,29 @@ public class reporteNominaVista extends JFrame {
                         reporte.getApellido(),
                         reporte.getDPI(),
                         reporte.getFechaIngreso(),
-                        reporte.getSalarioBase(),
+                        reporte.getSalarioBaseFormateado(),  // Cambiado a getter formateado
                         reporte.getEstado(),
                         reporte.getIdNomina(),
                         reporte.getFechaPago(),
-                        reporte.getSalario(),
+                        reporte.getSalarioFormateado(),      // Cambiado a getter formateado
                         reporte.getHorasExtras(),
-                        reporte.getComisiones(),
-                        reporte.getBonificaciones(),
-                        reporte.getValorHorasExtras(),
-                        reporte.getTotalDevengado(),
-                        reporte.getISR(),
-                        reporte.getAnticipos(),
-                        reporte.getJudiciales(),
-                        reporte.getPrestamos(),
-                        reporte.getIGSS(),
-                        reporte.getDeducciones(),
-                        reporte.getTotalPagar()
+                        reporte.getComisionesFormateado(),   // Cambiado a getter formateado
+                        reporte.getBonificacionesFormateado(), // Cambiado a getter formateado
+                        reporte.getValorHorasExtrasFormateado(), // Cambiado a getter formateado
+                        reporte.getTotalDevengadoFormateado(), // Cambiado a getter formateado
+                        reporte.getISRFormateado(),          // Cambiado a getter formateado
+                        reporte.getAnticiposFormateado(),    // Cambiado a getter formateado
+                        reporte.getJudicialesFormateado(),   // Cambiado a getter formateado
+                        reporte.getPrestamosFormateado(),    // Cambiado a getter formateado
+                        reporte.getIGSSFormateado(),         // Cambiado a getter formateado
+                        reporte.getDeduccionesFormateado(),  // Cambiado a getter formateado
+                        reporte.getTotalPagarFormateado()    // Cambiado a getter formateado
                 };
                 tableModel.addRow(rowData);
             }
         } catch (Exception e) {
             e.printStackTrace();
+            mostrarError("Error al cargar los datos de nómina: " + e.getMessage());
         }
     }
 
@@ -197,35 +198,36 @@ public class reporteNominaVista extends JFrame {
                     contentStream.showText("Fecha Pago: " + reporte.getFechaPago().toString());
                     contentStream.endText();
     
-                    contentStream.beginText();
-                    contentStream.newLineAtOffset(50, startY - 90);
-                    contentStream.showText("Total Devengado: " + reporte.getTotalDevengado().toString());
-                    contentStream.endText();
-    
                     // Detalles de compensación
                     contentStream.beginText();
                     contentStream.newLineAtOffset(50, startY - 105);
-                    contentStream.showText("Compensación: Salario Base: " + reporte.getSalarioBase().toString() +
+                    contentStream.showText("Compensación: Salario Base: " + reporte.getSalarioBaseFormateado().toString() +
                             " | Horas Extras: " + String.valueOf(reporte.getHorasExtras()) +
-                            " | Comisiones: " + reporte.getComisiones().toString());
+                            " | Comisiones: " + reporte.getComisionesFormateado().toString()+
+                            " | Bonoficaciones: " + reporte.getBonificacionesFormateado().toString());
+                    contentStream.endText();
+
+                    contentStream.beginText();
+                    contentStream.newLineAtOffset(50, startY - 90);
+                    contentStream.showText("Total Devengado: " + reporte.getTotalDevengadoFormateado().toString());
                     contentStream.endText();
     
                     // Deducciones
                     contentStream.beginText();
                     contentStream.newLineAtOffset(50, startY - 120);
-                    contentStream.showText("Deducciones: ISR: " + reporte.getISR().toString() +
-                            " | Anticipos: " + reporte.getAnticipos().toString() +
-                            " | Judiciales: " + reporte.getJudiciales().toString());
+                    contentStream.showText("Deducciones: ISR: " + reporte.getISRFormateado().toString() +
+                            " | Anticipos: " + reporte.getAnticiposFormateado().toString() +
+                            " | Judiciales: " + reporte.getJudicialesFormateado().toString());
                     contentStream.endText();
     
                     contentStream.beginText();
                     contentStream.newLineAtOffset(50, startY - 135);
-                    contentStream.showText("Total Deducciones: " + reporte.getDeducciones().toString());
+                    contentStream.showText("Total Deducciones: " + reporte.getDeduccionesFormateado().toString());
                     contentStream.endText();
     
                     contentStream.beginText();
                     contentStream.newLineAtOffset(50, startY - 150);
-                    contentStream.showText("Total a Pagar: " + reporte.getTotalPagar().toString());
+                    contentStream.showText("Total a Pagar: " + reporte.getTotalPagarFormateado().toString());
                     contentStream.endText();
     
                     // Espacio entre empleados
