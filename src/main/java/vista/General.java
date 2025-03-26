@@ -47,6 +47,8 @@ import org.eclipse.jdt.internal.compiler.batch.Main;
 import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
 
 public class General extends javax.swing.JFrame {
+    private String nombreUsuario;
+    
     // Módulo de Nómina
     private javax.swing.JMenu mnuNomina;
     private javax.swing.JMenuItem mnuNominaCalculoNomina;
@@ -86,6 +88,7 @@ public class General extends javax.swing.JFrame {
      * Creates new form MdiGeneral
      */
     public General() {
+        
         ImageIcon image = new ImageIcon("bin/icons/10612410.png");
         setTitle("Recursos humanos Empresa S.A.");
         setIconImage(image.getImage());//Ponemos una imagen como icono de la ventana

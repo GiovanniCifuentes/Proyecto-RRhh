@@ -13,6 +13,7 @@ public class Login extends JFrame {
 
     final private Font mainFont = new Font("Tahoma", Font.BOLD, 16);
     private Usuario user;
+    private String usuarioAutenticado;
 
     // Ajusta los detalles de conexión para SQL Server
     String url = "jdbc:sqlserver://localhost:1433;databaseName=RRHH;encrypt=true;trustServerCertificate=true";
@@ -86,16 +87,20 @@ public class Login extends JFrame {
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                System.out.println("Usuario encontrado: " + rs.getString("NombreUsuario")); // Debugging
-                return true; // Si hay un resultado, el usuario es válido
+                this.usuarioAutenticado = rs.getString("NombreUsuario"); // Almacena el nombre
+                return true;
             } else {
-                System.out.println("Usuario no encontrado"); // Debugging
-                return false; // Si no hay resultados, usuario no válido
+                return false;
             }
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Error de conexión a la base de datos: " + e.getMessage());
-            return false; // En caso de error, retornar false
+            return false;
         }
     }
+
+    // Añade un getter para el usuario autenticado
+    public String getUsuarioAutenticado() {
+        return usuarioAutenticado;
+    }
+    
 }

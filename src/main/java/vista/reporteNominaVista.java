@@ -6,6 +6,8 @@ import java.awt.FlowLayout;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -134,144 +136,224 @@ public class reporteNominaVista extends JFrame {
         }
     }
 
-    // Método para generar el reporte PDF
-        public void generarReportePDF(List<ReporteNomina> reporteList) {
-            try (PDDocument document = new PDDocument()) {
-                // Crear la primera página en orientación vertical (A4 estándar)
-                PDPage page = new PDPage(PDRectangle.A4);
-                document.addPage(page);
-    
-                // Inicializar el PDPageContentStream
-                PDPageContentStream contentStream = new PDPageContentStream(document, page);
-    
-                // Configurar la fuente y el tamaño para el título (usando Helvetica-Bold)
-                PDType1Font helveticaBold = new PDType1Font(Standard14Fonts.FontName.HELVETICA_BOLD);
-                contentStream.setFont(helveticaBold, 18);
-                contentStream.beginText();
-                contentStream.newLineAtOffset(50, 750); // Posición del título
-                contentStream.showText("Reporte de Nómina");
-                contentStream.endText();
-    
-                // Configurar la fuente para los datos (usando Helvetica normal)
-                PDType1Font helvetica = new PDType1Font(Standard14Fonts.FontName.HELVETICA);
-                contentStream.setFont(helvetica, 12);
-                int startY = 710; // Posición inicial de los datos
-    
-                // Dibujar los datos en formato de lista
-                for (ReporteNomina reporte : reporteList) {
-                    // Mostrar información del empleado
-                    contentStream.beginText();
-                    contentStream.newLineAtOffset(50, startY);
-                    contentStream.showText("Empleado: " + reporte.getNombre() + " " + reporte.getApellido());
-                    contentStream.endText();
-    
-                    startY -= 15;
-    
-                    contentStream.beginText();
-                    contentStream.newLineAtOffset(50, startY);
-                    contentStream.showText("ID Empleado: " + reporte.getIdEmpleado());
-                    contentStream.endText();
-    
-                    contentStream.beginText();
-                    contentStream.newLineAtOffset(50, startY - 15);
-                    contentStream.showText("DPI: " + reporte.getDPI());
-                    contentStream.endText();
-    
-                    contentStream.beginText();
-                    contentStream.newLineAtOffset(50, startY - 30);
-                    contentStream.showText("Fecha Ingreso: " + reporte.getFechaIngreso().toString());
-                    contentStream.endText();
-    
-                    contentStream.beginText();
-                    contentStream.newLineAtOffset(50, startY - 45);
-                    contentStream.showText("Estado: " + reporte.getEstado());
-                    contentStream.endText();
-    
-                    // Información de Nómina
-                    contentStream.beginText();
-                    contentStream.newLineAtOffset(50, startY - 60);
-                    contentStream.showText("Nómina: " + reporte.getIdNomina());
-                    contentStream.endText();
-    
-                    contentStream.beginText();
-                    contentStream.newLineAtOffset(50, startY - 75);
-                    contentStream.showText("Fecha Pago: " + reporte.getFechaPago().toString());
-                    contentStream.endText();
-    
-                    // Detalles de compensación
-                    contentStream.beginText();
-                    contentStream.newLineAtOffset(50, startY - 105);
-                    contentStream.showText("Compensación: Salario Base: " + reporte.getSalarioBaseFormateado().toString() +
-                            " | Horas Extras: " + String.valueOf(reporte.getHorasExtras()) +
-                            " | Comisiones: " + reporte.getComisionesFormateado().toString()+
-                            " | Bonoficaciones: " + reporte.getBonificacionesFormateado().toString());
-                    contentStream.endText();
-
-                    contentStream.beginText();
-                    contentStream.newLineAtOffset(50, startY - 90);
-                    contentStream.showText("Total Devengado: " + reporte.getTotalDevengadoFormateado().toString());
-                    contentStream.endText();
-    
-                    // Deducciones
-                    contentStream.beginText();
-                    contentStream.newLineAtOffset(50, startY - 120);
-                    contentStream.showText("Deducciones: ISR: " + reporte.getISRFormateado().toString() +
-                            " | Anticipos: " + reporte.getAnticiposFormateado().toString() +
-                            " | Judiciales: " + reporte.getJudicialesFormateado().toString());
-                    contentStream.endText();
-    
-                    contentStream.beginText();
-                    contentStream.newLineAtOffset(50, startY - 135);
-                    contentStream.showText("Total Deducciones: " + reporte.getDeduccionesFormateado().toString());
-                    contentStream.endText();
-    
-                    contentStream.beginText();
-                    contentStream.newLineAtOffset(50, startY - 150);
-                    contentStream.showText("Total a Pagar: " + reporte.getTotalPagarFormateado().toString());
-                    contentStream.endText();
-    
-                    // Espacio entre empleados
-                    startY -= 180;
-    
-                    // Si se llega al final de la página, crear una nueva página
-                    if (startY < 50) { // Margen inferior
-                        contentStream.close(); // Cerrar el contenido de la página actual
-    
-                        // Crear una nueva página
-                        page = new PDPage(PDRectangle.A4);
-                        document.addPage(page);
-                        contentStream = new PDPageContentStream(document, page);
-                        contentStream.setFont(helveticaBold, 12); // Usar Helvetica-Bold
-                        startY = 750; // Reiniciar la posición Y
-                    }
-                }
-    
-                // Cerrar el último PDPageContentStream
+    public void generarReportePDF(List<ReporteNomina> reporteList, String nombreUsuario) {
+    try (PDDocument document = new PDDocument()) {
+        // Configuración inicial
+        PDPage page = new PDPage(PDRectangle.A4);
+        document.addPage(page);
+        PDPageContentStream contentStream = new PDPageContentStream(document, page);
+        
+        // Fuentes
+        PDType1Font helveticaBold = new PDType1Font(Standard14Fonts.FontName.HELVETICA_BOLD);
+        PDType1Font helvetica = new PDType1Font(Standard14Fonts.FontName.HELVETICA); 
+        
+        // Margenes y posiciones iniciales
+        float marginLeft = 50;
+        float marginRight = 50;
+        float marginTop = 750;
+        float currentY = marginTop;
+        
+        // --- ENCABEZADO PROFESIONAL ---
+        contentStream.setFont(helveticaBold, 16);
+        contentStream.beginText();
+        contentStream.newLineAtOffset(marginLeft, currentY);
+        contentStream.showText("EMPRESA S.A.");
+        contentStream.endText();
+        currentY -= 20;
+        
+        contentStream.setFont(helveticaBold, 14);
+        contentStream.beginText();
+        contentStream.newLineAtOffset(marginLeft, currentY);
+        contentStream.showText("Reporte de Nómina");
+        contentStream.endText();
+        currentY -= 20;
+        
+        // Información de usuario y fecha
+        contentStream.setFont(helvetica, 10);
+        contentStream.beginText();
+        contentStream.newLineAtOffset(marginLeft, currentY);
+        contentStream.showText("Solicitado por: " + nombreUsuario);
+        contentStream.endText();
+        
+        contentStream.beginText();
+        contentStream.newLineAtOffset(400, currentY); // Alineado a la derecha
+        contentStream.showText("Fecha: " + LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        contentStream.endText();
+        currentY -= 15;
+        
+        contentStream.beginText();
+        contentStream.newLineAtOffset(marginLeft, currentY);
+        contentStream.showText("Moneda: Quetzales (GTQ)");
+        contentStream.endText();
+        currentY -= 30; // Espacio adicional antes de los datos
+        
+        // Línea divisoria
+        contentStream.moveTo(marginLeft, currentY);
+        contentStream.lineTo(PDRectangle.A4.getWidth() - marginRight, currentY);
+        contentStream.stroke();
+        currentY -= 20;
+        
+        // --- CUERPO DEL REPORTE ---
+        contentStream.setFont(helvetica, 12);
+        
+        for (ReporteNomina reporte : reporteList) {
+            // Verificar espacio en página
+            if (currentY < 100) { // Margen inferior
                 contentStream.close();
-    
-                // Guardar el documento en la ruta especificada
-                File file = new File("C://Users//HP//OneDrive//Documentos//7mo semestre//Analisis de Sistemas 2//Proyecto-RRhh//Reportes//ReporteNomina.pdf");
-                document.save(file);
-    
-                // Mostrar mensaje de éxito
-                JOptionPane.showMessageDialog(null, "Reporte PDF generado con éxito en: " + file.getAbsolutePath());
-    
-                // Intentar abrir el archivo automáticamente
-                if (Desktop.isDesktopSupported()) {
-                    Desktop.getDesktop().open(file);
-                } else {
-                    JOptionPane.showMessageDialog(null, "No se pudo abrir el archivo automáticamente. Por favor, ábrelo manualmente.");
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Error al generar o abrir el reporte PDF: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-            } catch (Exception e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Error inesperado al generar el reporte PDF: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                page = new PDPage(PDRectangle.A4);
+                document.addPage(page);
+                contentStream = new PDPageContentStream(document, page);
+                currentY = marginTop;
+                
+                // Repetir encabezado en nuevas páginas
+                contentStream.setFont(helveticaBold, 10);
+                contentStream.beginText();
+                contentStream.newLineAtOffset(marginLeft, currentY);
+                contentStream.showText("EMPRESA S.A. - Continuación Reporte de Nómina");
+                contentStream.endText();
+                currentY -= 15;
+                
+                contentStream.beginText();
+                contentStream.newLineAtOffset(marginLeft, currentY);
+                contentStream.showText("Página " + (document.getNumberOfPages()));
+                contentStream.endText();
+                currentY -= 30;
+                
+                contentStream.setFont(helvetica, 12);
+            }
+            
+            // Datos del empleado
+            addTextWithWrap(contentStream, "Empleado: " + reporte.getNombre() + " " + reporte.getApellido(), 
+                          marginLeft, currentY, PDRectangle.A4.getWidth() - marginRight - marginLeft);
+            currentY -= 15;
+            
+            addTextWithWrap(contentStream, "ID Empleado: " + reporte.getIdEmpleado(), marginLeft, currentY);
+            currentY -= 15;
+            
+            addTextWithWrap(contentStream, "DPI: " + reporte.getDPI(), marginLeft, currentY);
+            currentY -= 15;
+            
+            addTextWithWrap(contentStream, "Fecha Ingreso: " + reporte.getFechaIngreso().toString(), marginLeft, currentY);
+            currentY -= 15;
+            
+            addTextWithWrap(contentStream, "Estado: " + reporte.getEstado(), marginLeft, currentY);
+            currentY -= 20;
+            
+            // Información de Nómina
+            addTextWithWrap(contentStream, "Nómina: " + reporte.getIdNomina(), marginLeft, currentY);
+            currentY -= 15;
+            
+            addTextWithWrap(contentStream, "Fecha Pago: " + reporte.getFechaPago().toString(), marginLeft, currentY);
+            currentY -= 20;
+            
+            // Detalles de compensación
+            addTextWithWrap(contentStream, "Compensación:", marginLeft, currentY);
+            currentY -= 15;
+            
+            addTextWithWrap(contentStream, "  • Salario Base: " + reporte.getSalarioBaseFormateado(), marginLeft + 20, currentY);
+            currentY -= 15;
+            
+            addTextWithWrap(contentStream, "  • Horas Extras: " + reporte.getHorasExtras(), marginLeft + 20, currentY);
+            currentY -= 15;
+            
+            addTextWithWrap(contentStream, "  • Comisiones: " + reporte.getComisionesFormateado(), marginLeft + 20, currentY);
+            currentY -= 15;
+            
+            addTextWithWrap(contentStream, "  • Bonificaciones: " + reporte.getBonificacionesFormateado(), marginLeft + 20, currentY);
+            currentY -= 15;
+            
+            addTextWithWrap(contentStream, "Total Devengado: " + reporte.getTotalDevengadoFormateado(), marginLeft, currentY);
+            currentY -= 20;
+            
+            // Deducciones
+            addTextWithWrap(contentStream, "Deducciones:", marginLeft, currentY);
+            currentY -= 15;
+            
+            addTextWithWrap(contentStream, "  • ISR: " + reporte.getISRFormateado(), marginLeft + 20, currentY);
+            currentY -= 15;
+            
+            addTextWithWrap(contentStream, "  • Anticipos: " + reporte.getAnticiposFormateado(), marginLeft + 20, currentY);
+            currentY -= 15;
+            
+            addTextWithWrap(contentStream, "  • Judiciales: " + reporte.getJudicialesFormateado(), marginLeft + 20, currentY);
+            currentY -= 15;
+            
+            addTextWithWrap(contentStream, "Total Deducciones: " + reporte.getDeduccionesFormateado(), marginLeft, currentY);
+            currentY -= 20;
+            
+            // Total a pagar (destacado)
+            contentStream.setFont(helveticaBold, 12);
+            addTextWithWrap(contentStream, "TOTAL A PAGAR: " + reporte.getTotalPagarFormateado(), marginLeft, currentY);
+            contentStream.setFont(helvetica, 12);
+            currentY -= 30;
+            
+            // Línea divisoria entre empleados
+            contentStream.moveTo(marginLeft, currentY);
+            contentStream.lineTo(PDRectangle.A4.getWidth() - marginRight, currentY);
+            contentStream.stroke();
+            currentY -= 20;
+        }
+        
+        contentStream.close();
+        
+        // Guardar el documento
+        String filePath = "C://Users//HP//OneDrive//Documentos//7mo semestre//Analisis de Sistemas 2//Proyecto-RRhh//Reportes//ReporteNomina_" + 
+                         LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd")) + ".pdf";
+        File file = new File(filePath);
+        document.save(file);
+        
+        // Mostrar mensaje y abrir archivo
+        JOptionPane.showMessageDialog(null, "Reporte PDF generado con éxito en: " + file.getAbsolutePath());
+        
+        if (Desktop.isDesktopSupported()) {
+            Desktop.getDesktop().open(file);
+        }
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Error al generar el reporte: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        e.printStackTrace();
+    }
+}
+
+// Método auxiliar para manejar texto con wrap (opcional)
+private void addTextWithWrap(PDPageContentStream contentStream, String text, float x, float y, float maxWidth) throws IOException {
+    // Implementación básica de wrap de texto (puedes mejorarla)
+    if (text.length() * 6 < maxWidth) { // Estimación aproximada
+        contentStream.beginText();
+        contentStream.newLineAtOffset(x, y);
+        contentStream.showText(text);
+        contentStream.endText();
+    } else {
+        // Dividir el texto en líneas más cortas
+        String[] words = text.split(" ");
+        StringBuilder line = new StringBuilder();
+        
+        contentStream.beginText();
+        contentStream.newLineAtOffset(x, y);
+        
+        for (String word : words) {
+            if (line.length() + word.length() + 1 < maxWidth / 6) {
+                line.append(word).append(" ");
+            } else {
+                contentStream.showText(line.toString());
+                contentStream.newLineAtOffset(0, -15); // Nueva línea
+                line = new StringBuilder(word + " ");
             }
         }
+        
+        if (line.length() > 0) {
+            contentStream.showText(line.toString());
+        }
+        
+        contentStream.endText();
+    }
+}
 
-    
+private void addTextWithWrap(PDPageContentStream contentStream, String text, float x, float y) throws IOException {
+    contentStream.beginText();
+    contentStream.newLineAtOffset(x, y);
+    contentStream.showText(text);
+    contentStream.endText();
+}
 
 public void generarReporteExcel(List<ReporteNomina> reporteList) {
     try {

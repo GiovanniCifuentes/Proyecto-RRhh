@@ -28,14 +28,17 @@ public class reporteNominaControlador {
 
         // Acción para el botón "Generar Reporte Excel"
         vista.getBtnGenerarExcel().addActionListener(e -> generarReporteExcel());
-    }
-
+    }// Temporal, luego implementa la lógica real.
     // Método para generar el reporte PDF
+
+    String nombreUsuario = "Admin RRHH"; // Temporal, luego implementa la lógica real.
     private void generarReportePDF() {
         try {
             // Obtener los datos del modelo
             List<ReporteNomina> reporteList = modelo.obtenerReporteNomina();
-    
+
+            //String nombreUsuario = general.getNombreUsuario();
+
             // Verificar si la lista de reportes está vacía
             if (reporteList == null || reporteList.isEmpty()) {
                 vista.mostrarError("No hay datos de nómina para generar el reporte.");
@@ -43,7 +46,7 @@ public class reporteNominaControlador {
             }
     
             // Llamar al método de la vista para generar el PDF
-            vista.generarReportePDF(reporteList);
+            vista.generarReportePDF(reporteList, nombreUsuario);
         } catch (SQLException ex) {
             ex.printStackTrace();
             vista.mostrarError("Error al obtener los datos de la nómina: " + ex.getMessage());
