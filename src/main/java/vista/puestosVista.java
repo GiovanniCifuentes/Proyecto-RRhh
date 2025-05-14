@@ -1,8 +1,17 @@
 package vista;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 
@@ -34,15 +43,15 @@ public class puestosVista extends JFrame {
         txtPuesto = new JTextField();
         panelEntrada.add(txtPuesto);
 
-        panelEntrada.add(new JLabel("Salario Puesto:"));
+        /*panelEntrada.add(new JLabel("Salario Puesto:"));
         txtSalarioPuesto = new JTextField();
-        panelEntrada.add(txtSalarioPuesto);
+        panelEntrada.add(txtSalarioPuesto);*/
 
 
         add(panelEntrada, BorderLayout.NORTH);
 
         // 📌 Tabla de empleados
-        modeloTabla = new DefaultTableModel(new String[]{"IdRol", "NombreRol", "SalarioBase"}, 0);
+        modeloTabla = new DefaultTableModel(new String[]{"IdRol", "NombreRol"/*, "SalarioBase"*/}, 0);
         tablaPuestos = new JTable(modeloTabla);
         add(new JScrollPane(tablaPuestos), BorderLayout.CENTER);
 

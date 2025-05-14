@@ -30,6 +30,9 @@ import controlador.calculoNominaControlador;
 import controlador.empleadoGestionControlador;
 import controlador.metricasControlador;
 import controlador.puestosControlador;
+import vista.VistaPrestaciones;
+import modelo.ModeloPrestaciones;
+import controlador.ControladorPrestaciones;
 
 import javax.swing.*;
 
@@ -63,8 +66,7 @@ public class General extends javax.swing.JFrame {
 
     // Módulo de Gestión de Prestaciones
     private javax.swing.JMenu mnuPrestaciones;
-    private javax.swing.JMenuItem mnuPrestacionesBeneficios;
-    private javax.swing.JMenuItem mnuPrestacionesSeguridadSocial;
+    private javax.swing.JMenuItem mnuIngresoPrestaciones;
 
     // Módulo de Indicadores de Productividad
     private javax.swing.JMenu mnuIndicadores;
@@ -132,8 +134,7 @@ public class General extends javax.swing.JFrame {
     
         // Módulo de Gestión de Prestaciones
         mnuPrestaciones = new JMenu("Prestaciones");
-        mnuPrestacionesBeneficios = new JMenuItem("Beneficios");
-        mnuPrestacionesSeguridadSocial = new JMenuItem("Seguridad Social");
+        mnuIngresoPrestaciones = new JMenuItem("Ingreso de Prestaciones");
     
         // Módulo de Indicadores de Productividad
         mnuIndicadores = new JMenu("Indicadores");
@@ -203,11 +204,8 @@ public class General extends javax.swing.JFrame {
         jMenuBar1.add(mnuGestionRH);
     
         // Configuración del módulo de Prestaciones
-        mnuPrestacionesBeneficios.addActionListener(this::mnuPrestacionesBeneficiosActionPerformed);
-        mnuPrestacionesSeguridadSocial.addActionListener(this::mnuPrestacionesSeguridadSocialActionPerformed);
-    
-        mnuPrestaciones.add(mnuPrestacionesBeneficios);
-        mnuPrestaciones.add(mnuPrestacionesSeguridadSocial);
+        mnuIngresoPrestaciones.addActionListener(this::mnuIngresoPrestacionesActionPerformed);
+        mnuPrestaciones.add(mnuIngresoPrestaciones);
     
         jMenuBar1.add(mnuPrestaciones);
     
@@ -313,6 +311,7 @@ public class General extends javax.swing.JFrame {
     // Configurar el cierre de la ventana
     vista.setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
 }
+
     private reporteNominaVista vistaReportes;
     private void mnuNominaReportesActionPerformed(java.awt.event.ActionEvent evt) {
     System.out.println("Abrir módulo de reportes");
@@ -406,8 +405,22 @@ public class General extends javax.swing.JFrame {
 
     }
 
-    private void mnuPrestacionesBeneficiosActionPerformed(java.awt.event.ActionEvent evt) {
-        System.out.println("Abrir módulo de beneficios");
+    private void mnuIngresoPrestacionesActionPerformed(java.awt.event.ActionEvent evt) {
+        try{System.out.println("Abrir módulo de beneficios");
+
+        VistaPrestaciones vista = new VistaPrestaciones();
+        ModeloPrestaciones modelo = new ModeloPrestaciones();
+        ControladorPrestaciones controlador = new ControladorPrestaciones(modelo, vista);
+
+        vista.setLocationRelativeTo(null);
+        vista.setVisible(true);
+        
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, 
+            "Error al abrir el módulo de prestaciones: " + e.getMessage(),
+            "Error", JOptionPane.ERROR_MESSAGE);
+        e.printStackTrace();}
+
     }
 
     private void mnuPrestacionesSeguridadSocialActionPerformed(java.awt.event.ActionEvent evt) {

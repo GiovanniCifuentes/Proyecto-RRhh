@@ -1,16 +1,26 @@
 package vista;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 
 public class empleadoGestionVista extends JFrame {
     public JTextField txtID, txtNombre, txtApellido, txtDPI, txtSalarioBase, txtIdRol;
-    public JButton btnModificar, btnEliminar, btnBuscar, btnLimpiar;
+    public JButton btnModificar, btnEliminar, btnBuscar, btnLimpiar, btnActivar;
     public JTable tablaEmpleados;
     public DefaultTableModel modeloTabla;
     public JFormattedTextField txtFechaIngreso;
@@ -70,11 +80,13 @@ public class empleadoGestionVista extends JFrame {
         JPanel panelBotones = new JPanel();
         btnModificar = new JButton("Modificar");
         btnEliminar = new JButton("Eliminar");
+        //btnActivar = new JButton("Activar");
         btnBuscar = new JButton("Buscar");
         btnLimpiar = new JButton("Limpiar");
 
         panelBotones.add(btnModificar);
         panelBotones.add(btnEliminar);
+        //panelBotones.add(btnActivar);
         panelBotones.add(btnBuscar);
         panelBotones.add(btnLimpiar);
         add(panelBotones, BorderLayout.SOUTH);

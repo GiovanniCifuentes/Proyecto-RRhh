@@ -1,6 +1,10 @@
 package modelo;
 
-import java.sql.*;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class puestosModelo {
     private static final String URL = "jdbc:sqlserver://localhost:1433;databaseName=RRHH;encrypt=true;trustServerCertificate=true";
@@ -12,15 +16,38 @@ public class puestosModelo {
         return DriverManager.getConnection(URL, USUARIO, CONTRASEÑA);
     }
 
+    public int ingresar(String nombre) {
+        String sql = "{CALL IngresarRol(?)}";
+        
+        try (Connection conexion = conectar();
+             CallableStatement stmt = conexion.prepareCall(sql)) {
+    
+            stmt.setString(1, nombre);  // Solo el nombre
+    
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    int idGenerado = rs.getInt("IdRolNuevo");
+                    System.out.println("✅ Rol ingresado correctamente. ID generado: " + idGenerado);
+                    return idGenerado;
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("❌ Error al ingresar rol: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return -1; // Retorna -1 si falla
+    }
+
     // Método para ejecutar el procedimiento almacenado AltaEmpleado
-    public void ingresar(String nombre, Double salarioBase) {
+    /*public void ingresar(int idRol, String nombre, Double salarioBase) {
         String sql = "{CALL IngresarRol(?, ?)}";
         
         try (Connection conexion = conectar();
              CallableStatement stmt = conexion.prepareCall(sql)) {
 
+            stmt.setInt(1, idRol);
             stmt.setString(1, nombre);
-            stmt.setDouble(2, salarioBase);
+            //stmt.setDouble(2, salarioBase);
 
             int filasAfectadas = stmt.executeUpdate();
             System.out.println("✅ Alta de empleado realizada. Filas afectadas: " + filasAfectadas);
@@ -28,17 +55,17 @@ public class puestosModelo {
             System.out.println("❌ Error al ejecutar la alta de empleado");
             e.printStackTrace();
         }
-    }
+    }*/
 
     // Método para ejecutar el procedimiento almacenado ModificarRol
-    public void modificar(int idRol, String nombre, Double salarioBase) {
-        String sql = "{CALL ModificarRol(?, ?, ?)}";
+    public void modificar(int idRol, String nombre/*, Double salarioBase*/) {
+        String sql = "{CALL ModificarRol(?, ?)}";
         try (Connection conexion = conectar();
              CallableStatement stmt = conexion.prepareCall(sql)) {
     
             stmt.setInt(1, idRol);
             stmt.setString(2, nombre);
-            stmt.setDouble(3, salarioBase);
+           // stmt.setDouble(3, salarioBase);
 
             int filasAfectadas = stmt.executeUpdate();
             System.out.println("✅ Alta de empleado realizada. Filas afectadas: " + filasAfectadas);

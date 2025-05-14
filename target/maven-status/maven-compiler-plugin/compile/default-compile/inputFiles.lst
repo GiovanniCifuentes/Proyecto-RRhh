@@ -1,5 +1,6 @@
 C:\Users\HP\OneDrive\Documentos\7mo semestre\Analisis de Sistemas 2\proyecto\Proyecto-RRHH\src\main\java\Conexion.java
 C:\Users\HP\OneDrive\Documentos\7mo semestre\Analisis de Sistemas 2\proyecto\Proyecto-RRHH\src\main\java\controlador\calculoNominaControlador.java
+C:\Users\HP\OneDrive\Documentos\7mo semestre\Analisis de Sistemas 2\proyecto\Proyecto-RRHH\src\main\java\controlador\ControladorPrestaciones.java
 C:\Users\HP\OneDrive\Documentos\7mo semestre\Analisis de Sistemas 2\proyecto\Proyecto-RRHH\src\main\java\controlador\CVControlador.java
 C:\Users\HP\OneDrive\Documentos\7mo semestre\Analisis de Sistemas 2\proyecto\Proyecto-RRHH\src\main\java\controlador\Empleado.java
 C:\Users\HP\OneDrive\Documentos\7mo semestre\Analisis de Sistemas 2\proyecto\Proyecto-RRHH\src\main\java\controlador\empleadoAltaControlador.java
@@ -19,6 +20,7 @@ C:\Users\HP\OneDrive\Documentos\7mo semestre\Analisis de Sistemas 2\proyecto\Pro
 C:\Users\HP\OneDrive\Documentos\7mo semestre\Analisis de Sistemas 2\proyecto\Proyecto-RRHH\src\main\java\modelo\EmpleadoDAO.java
 C:\Users\HP\OneDrive\Documentos\7mo semestre\Analisis de Sistemas 2\proyecto\Proyecto-RRHH\src\main\java\modelo\empleadoGestionBaja.java
 C:\Users\HP\OneDrive\Documentos\7mo semestre\Analisis de Sistemas 2\proyecto\Proyecto-RRHH\src\main\java\modelo\metricasModelo.java
+C:\Users\HP\OneDrive\Documentos\7mo semestre\Analisis de Sistemas 2\proyecto\Proyecto-RRHH\src\main\java\modelo\ModeloPrestaciones.java
 C:\Users\HP\OneDrive\Documentos\7mo semestre\Analisis de Sistemas 2\proyecto\Proyecto-RRHH\src\main\java\modelo\NominaVO.java
 C:\Users\HP\OneDrive\Documentos\7mo semestre\Analisis de Sistemas 2\proyecto\Proyecto-RRHH\src\main\java\modelo\opcionesNominaModelo.java
 C:\Users\HP\OneDrive\Documentos\7mo semestre\Analisis de Sistemas 2\proyecto\Proyecto-RRHH\src\main\java\modelo\puestosModelo.java
@@ -37,3 +39,4 @@ C:\Users\HP\OneDrive\Documentos\7mo semestre\Analisis de Sistemas 2\proyecto\Pro
 C:\Users\HP\OneDrive\Documentos\7mo semestre\Analisis de Sistemas 2\proyecto\Proyecto-RRHH\src\main\java\vista\puestosVista.java
 C:\Users\HP\OneDrive\Documentos\7mo semestre\Analisis de Sistemas 2\proyecto\Proyecto-RRHH\src\main\java\vista\reporteNominaVista.java
 C:\Users\HP\OneDrive\Documentos\7mo semestre\Analisis de Sistemas 2\proyecto\Proyecto-RRHH\src\main\java\vista\UsuariosVista.java
+C:\Users\HP\OneDrive\Documentos\7mo semestre\Analisis de Sistemas 2\proyecto\Proyecto-RRHH\src\main\java\vista\VistaPrestaciones.java

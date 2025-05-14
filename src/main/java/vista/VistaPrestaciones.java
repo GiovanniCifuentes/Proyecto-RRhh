@@ -11,7 +11,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class VistaPrestaciones extends JFrame {
     JTable tabla;
-    JButton btnActualizar, btnDescontarVacaciones;
+    JButton btnActualizar, btnDescontarVacaciones, btnGenerarPDF;
 
     public VistaPrestaciones() {
         setTitle("Gestión de Prestaciones");
@@ -22,6 +22,7 @@ public class VistaPrestaciones extends JFrame {
         tabla = new JTable();
         btnActualizar = new JButton("Actualizar Datos");
         btnDescontarVacaciones = new JButton("Descontar Vacaciones");
+        btnGenerarPDF = new JButton("Generar PDF");
 
         JPanel panel = new JPanel(new BorderLayout());
         panel.add(new JScrollPane(tabla), BorderLayout.CENTER);
@@ -29,6 +30,7 @@ public class VistaPrestaciones extends JFrame {
         JPanel panelBotones = new JPanel();
         panelBotones.add(btnActualizar);
         panelBotones.add(btnDescontarVacaciones);
+        panelBotones.add(btnGenerarPDF);
         panel.add(panelBotones, BorderLayout.SOUTH);
 
         add(panel);
@@ -37,11 +39,24 @@ public class VistaPrestaciones extends JFrame {
     public void actualizarTabla(DefaultTableModel modelo) {
         tabla.setModel(modelo);
     }
+    
     public JButton getBtnActualizar() {
         return btnActualizar;
     }
     
     public JButton getBtnDescontarVacaciones() {
         return btnDescontarVacaciones;
+    }
+    
+    public JButton getBtnGenerarPDF() {
+        return btnGenerarPDF;
+    }
+    
+    public int getIdEmpleadoSeleccionado() {
+        int filaSeleccionada = tabla.getSelectedRow();
+        if (filaSeleccionada >= 0) {
+            return Integer.parseInt(tabla.getValueAt(filaSeleccionada, 1).toString()); // Columna 1 es IdEmpleado
+        }
+        return -1;
     }
 }

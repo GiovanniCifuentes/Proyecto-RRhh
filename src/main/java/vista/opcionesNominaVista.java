@@ -28,6 +28,8 @@ public class opcionesNominaVista extends JInternalFrame {
     private JButton btnBuscar;
     private JButton btnCerrar; // Botón para cerrar la ventana
     private JPanel panelResultados; // Panel para mostrar los resultados
+    private JButton btnGenerarPDF;
+    private JButton btnGenerarExcel;
 
     public opcionesNominaVista() {
         // Configuración de la ventana
@@ -62,6 +64,16 @@ public class opcionesNominaVista extends JInternalFrame {
         // Botón para buscar
         btnBuscar = new JButton("Buscar");
         panelEntrada.add(btnBuscar);
+
+        JPanel panelReportes = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        btnGenerarPDF = new JButton("Generar PDF");
+        btnGenerarExcel = new JButton("Generar Excel");
+        
+        panelReportes.add(btnGenerarPDF);
+        panelReportes.add(btnGenerarExcel);
+        
+        // Agregar el panel de reportes al panel principal
+        panelPrincipal.add(panelReportes, BorderLayout.SOUTH);
 
         // Botón para cerrar la ventana
         btnCerrar = new JButton("Cerrar");
@@ -154,5 +166,14 @@ public class opcionesNominaVista extends JInternalFrame {
     // Método para configurar el listener del botón de búsqueda
     public void setBuscarListener(ActionListener listener) {
         btnBuscar.addActionListener(listener);
+    }
+
+    // Agregar estos métodos para configurar los listeners
+    public void setGenerarPDFListener(ActionListener listener) {
+        btnGenerarPDF.addActionListener(listener);
+    }
+
+    public void setGenerarExcelListener(ActionListener listener) {
+        btnGenerarExcel.addActionListener(listener);
     }
 }

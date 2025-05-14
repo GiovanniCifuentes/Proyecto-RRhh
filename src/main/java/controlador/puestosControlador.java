@@ -53,6 +53,47 @@ public class puestosControlador {
     private void ingresarRol() {
         try {
             // Obtener los datos del formulario
+            String puesto = vista.txtPuesto.getText().trim();
+    
+            // Validaciones
+            if (puesto.isEmpty()) {
+                JOptionPane.showMessageDialog(vista, "El nombre del puesto es obligatorio", 
+                                            "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+    
+            if (puesto.length() > 50) {
+                JOptionPane.showMessageDialog(vista, "El nombre no puede exceder 50 caracteres", 
+                                            "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+    
+            // Llamar al modelo
+            int idGenerado = modelo.ingresar(puesto);
+    
+            if (idGenerado > 0) {
+                JOptionPane.showMessageDialog(vista, 
+                    "Rol creado exitosamente\nID generado: " + idGenerado, 
+                    "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                limpiarCampos();
+            } else {
+                JOptionPane.showMessageDialog(vista, 
+                    "No se pudo crear el rol", 
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            }
+    
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(vista, 
+                "Error inesperado: " + e.getMessage(), 
+                "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }
+
+    /*private void ingresarRol() {
+        try {
+            // Obtener los datos del formulario
+            int idrol = Integer.parseInt(vista.txtIdRol.getText());
             String puesto = vista.txtPuesto.getText();
             double salarioBase = Double.parseDouble(vista.txtSalarioPuesto.getText());
 
@@ -63,7 +104,7 @@ public class puestosControlador {
             }
 
             // Llamar al procedimiento almacenado para ingresar el rol
-            modelo.ingresar(puesto, salarioBase);
+            modelo.ingresar(idrol, puesto, salarioBase;
 
             // Mostrar mensaje de éxito
             JOptionPane.showMessageDialog(vista, "Empleado agregado con éxito.");
@@ -76,16 +117,16 @@ public class puestosControlador {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(vista, "⚠ Error: No se pudo dar de alta al empleado.");
         }
-    }
+    }*/
 
     // Método para modificar un rol
     private void modificarRol() {
         try {
             int idRol = Integer.parseInt(vista.txtIdRol.getText());
             String puesto = vista.txtPuesto.getText();
-            double salarioPuesto = Double.parseDouble(vista.txtSalarioPuesto.getText());
+            //double salarioPuesto = Double.parseDouble(vista.txtSalarioPuesto.getText());
 
-            modelo.modificar(idRol, puesto, salarioPuesto);
+            modelo.modificar(idRol, puesto /*salarioPuesto*/);
             buscarRol();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(vista, "Error al modificar el empleado: " + ex.getMessage());
@@ -120,7 +161,7 @@ public class puestosControlador {
                 Object[] fila = {
                     rs.getInt("IdRol"),
                     rs.getString("NombreRol"),
-                    rs.getDouble("SalarioRol"),
+                    //rs.getDouble("SalarioRol"),
                 };
                 modeloTabla.addRow(fila);
             } else {
@@ -146,7 +187,7 @@ public class puestosControlador {
                 Object[] fila = {
                     rs.getInt("IdRol"),
                     rs.getString("NombreRol"),
-                    rs.getDouble("SalarioRol"),
+                   //rs.getDouble("SalarioRol"),
                 };
                 modeloTabla.addRow(fila);
             }
@@ -158,7 +199,7 @@ public class puestosControlador {
     private void limpiarCampos() {
         vista.txtIdRol.setText("");
         vista.txtPuesto.setText("");
-        vista.txtSalarioPuesto.setText("");
+        //vista.txtSalarioPuesto.setText("");
     }
 
 }
