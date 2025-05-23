@@ -8,6 +8,7 @@ import java.util.Date;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -24,6 +25,8 @@ public class empleadoGestionVista extends JFrame {
     public JTable tablaEmpleados;
     public DefaultTableModel modeloTabla;
     public JFormattedTextField txtFechaIngreso;
+    public JCheckBox chkMostrarInactivos;
+    public JButton btnMostrarInactivos;
 
     public empleadoGestionVista() {
         ImageIcon image = new ImageIcon("bin/icons/10612410.png");
@@ -72,21 +75,30 @@ public class empleadoGestionVista extends JFrame {
         add(panelEntrada, BorderLayout.NORTH);
 
         // 📌 Tabla de empleados
-        modeloTabla = new DefaultTableModel(new String[]{"ID", "Nombre", "Apellido", "DPI", "FechaIngreso", "SalarioBase", "IdRol"}, 0);
+         modeloTabla = new DefaultTableModel(new String[]{
+            "ID", "Nombre", "Apellido", "DPI", "FechaIngreso", 
+            "SalarioBase", "IdRol", "Estado"}, 0);
         tablaEmpleados = new JTable(modeloTabla);
         add(new JScrollPane(tablaEmpleados), BorderLayout.CENTER);
+
+        /*JPanel panelFiltros = new JPanel();
+        chkMostrarInactivos = new JCheckBox("Mostrar empleados inactivos");
+        btnMostrarInactivos = new JButton("Aplicar Filtro");
+        panelFiltros.add(chkMostrarInactivos);
+        panelFiltros.add(btnMostrarInactivos);
+        add(panelFiltros, BorderLayout.NORTH);*/
 
         // 📌 Panel de botones
         JPanel panelBotones = new JPanel();
         btnModificar = new JButton("Modificar");
         btnEliminar = new JButton("Eliminar");
-        //btnActivar = new JButton("Activar");
+        btnActivar = new JButton("Activar");
         btnBuscar = new JButton("Buscar");
         btnLimpiar = new JButton("Limpiar");
 
         panelBotones.add(btnModificar);
         panelBotones.add(btnEliminar);
-        //panelBotones.add(btnActivar);
+        panelBotones.add(btnActivar);
         panelBotones.add(btnBuscar);
         panelBotones.add(btnLimpiar);
         add(panelBotones, BorderLayout.SOUTH);
@@ -94,8 +106,12 @@ public class empleadoGestionVista extends JFrame {
         setVisible(true);
     }
 
-    // Método para obtener el modelo de la tabla
-    public DefaultTableModel getModeloTabla() {
+     public DefaultTableModel getModeloTabla() {
         return modeloTabla;
     }
+    
+    public boolean mostrarInactivos() {
+        return chkMostrarInactivos.isSelected();
+    }
+
 }

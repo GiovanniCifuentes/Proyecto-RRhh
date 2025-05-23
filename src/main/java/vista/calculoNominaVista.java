@@ -34,7 +34,7 @@ public class calculoNominaVista extends JInternalFrame {
     public calculoNominaVista() {
         // Configuración de la ventana
         setTitle("Gestión de Nóminas");
-        setSize(1500, 950);
+        setSize(1000, 700);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         // Inicializar el modelo

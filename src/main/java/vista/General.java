@@ -34,6 +34,13 @@ import vista.VistaPrestaciones;
 import modelo.ModeloPrestaciones;
 import controlador.ControladorPrestaciones;
 
+import java.awt.Desktop;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import javax.swing.*;
 
 import java.awt.Dimension;
@@ -41,6 +48,8 @@ import java.awt.Dimension;
 import javax.swing.text.GapContent;
 
 import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
@@ -85,6 +94,7 @@ public class General extends javax.swing.JFrame {
 
     // Menú de Ayuda
     private javax.swing.JMenu mnuAyudas;
+    private javax.swing.JMenuItem mnuAyu;
 
     /**
      * Creates new form MdiGeneral
@@ -151,7 +161,53 @@ public class General extends javax.swing.JFrame {
         mnuCVs = new JMenuItem("Gestión de Curriculum Vitae");
     
         // Menú de Ayuda
+        mnuAyu = new JMenuItem("Manual de Usuario");
         mnuAyudas = new JMenu("Ayuda");
+
+        mnuAyu.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        // Definir la URL como constante dentro del método
+        final String url = "https://drive.google.com/file/d/1jKmYnsL5zKV2MLAWsCTFu1njyqbXMlfX/view?usp=drive_link";
+        
+        System.out.println("Evento de clic detectado"); // Diagnóstico 1
+        
+        try {
+            System.out.println("Intentando abrir enlace..."); // Diagnóstico 2
+            
+            if (Desktop.isDesktopSupported()) {
+                Desktop desktop = Desktop.getDesktop();
+                if (desktop.isSupported(Desktop.Action.BROWSE)) {
+                    System.out.println("Navegador soportado, abriendo..."); // Diagnóstico 3
+                    desktop.browse(new URI(url));
+                    return;
+                }
+            }
+            
+            System.out.println("Falló el método automático"); // Diagnóstico 4
+            mostrarAlternativa(url);
+            
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex.getMessage()); // Diagnóstico 5
+            ex.printStackTrace();
+            mostrarAlternativa(url); // Ahora url es accesible aquí
+        }
+    }
+    
+    // Método auxiliar dentro del mismo ámbito
+    private void mostrarAlternativa(String url) {
+        String mensaje = "<html>No se pudo abrir automáticamente.<br><br>"
+            + "Por favor:<br>"
+            + "1. Copie este enlace:<br>"
+            + "<a href=\"" + url + "\">" + url + "</a><br>"
+            + "2. Ábralo manualmente en su navegador</html>";
+            
+        JOptionPane.showMessageDialog(null,
+            mensaje, 
+            "Atención", 
+            JOptionPane.INFORMATION_MESSAGE);
+    }
+});
         
     
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -235,7 +291,9 @@ public class General extends javax.swing.JFrame {
         jMenuBar1.add(mnuAdmin);
     
         // Menú de Ayuda
+        mnuAyudas.add(mnuAyu);
         jMenuBar1.add(mnuAyudas);
+
 
         setJMenuBar(jMenuBar1);
     
@@ -311,6 +369,7 @@ public class General extends javax.swing.JFrame {
     // Configurar el cierre de la ventana
     vista.setDefaultCloseOperation(JInternalFrame.DISPOSE_ON_CLOSE);
 }
+
 
     private reporteNominaVista vistaReportes;
     private void mnuNominaReportesActionPerformed(java.awt.event.ActionEvent evt) {
@@ -520,6 +579,8 @@ public class General extends javax.swing.JFrame {
 
     vista.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
+
+    
 
 
     // ****** Funcionalidad de botones y barras de menu ******

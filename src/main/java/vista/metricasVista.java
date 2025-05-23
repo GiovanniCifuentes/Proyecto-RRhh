@@ -44,7 +44,7 @@ public class metricasVista extends JFrame {
 
     public metricasVista() {
         setTitle("Métricas de Horas Trabajadas");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(1200, 800);
         setLocationRelativeTo(null);
 

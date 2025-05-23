@@ -1,8 +1,6 @@
 package controlador;
 
 import java.awt.Desktop;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -39,38 +37,10 @@ public class empleadoGestionControlador {
         this.vista.btnEliminar.addActionListener(e -> eliminarEmpleado());
         this.vista.btnBuscar.addActionListener(e -> buscarEmpleado());
         this.vista.btnLimpiar.addActionListener(e -> limpiarCampos());
-
-        // 📌 Asignar eventos a los botones
-        this.vista.btnModificar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                modificarEmpleado();
-            }
+        this.vista.btnActivar.addActionListener(e -> {activarEmpleado();
+            // Aquí puedes agregar la lógica para activar un empleado
+            JOptionPane.showMessageDialog(vista, "Función de activar empleado no implementada.");
         });
-
-        /*this.vista.btnEliminar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                //eliminarEmpleado();
-                bloquearEmpleado();
-            }
-        });*/
-
-        this.vista.btnBuscar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                buscarEmpleado();
-            }
-        });
-
-        this.vista.btnLimpiar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                limpiarCampos();
-            }
-        });
-
-        /*this.vista.btnActivar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                activarEmpleado();
-            }
-        });*/
 
         mostrarEmpleados(); // Mostrar empleados al abrir la ventana
     }
@@ -118,7 +88,7 @@ public class empleadoGestionControlador {
                 
                 // Actualizar lista de empleados
                 mostrarEmpleados();
-                limpiarCampos();
+                //limpiarCampos();
             }
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(vista, "ID de empleado no válido", 
@@ -129,6 +99,44 @@ public class empleadoGestionControlador {
             ex.printStackTrace();
         }
     }
+
+   private void activarEmpleado() {
+    try {
+        int idEmpleado = Integer.parseInt(vista.txtID.getText());
+        
+        int confirmacion = JOptionPane.showConfirmDialog(
+            vista, 
+            "¿Confirmas que deseas reactivar al empleado ID: " + idEmpleado + "?",
+            "Confirmar Activación",
+            JOptionPane.YES_NO_OPTION);
+        
+        if (confirmacion == JOptionPane.YES_OPTION) {
+            String resultado = modelo.activar(idEmpleado);
+            
+            if (resultado.startsWith("SUCCESS")) {
+                JOptionPane.showMessageDialog(vista, 
+                    "Empleado reactivado con éxito",
+                    "Operación Exitosa",
+                    JOptionPane.INFORMATION_MESSAGE);
+                
+                // Actualizar la vista
+                buscarEmpleado();
+                mostrarEmpleados();
+            } else {
+                JOptionPane.showMessageDialog(vista, 
+                    resultado.replace("ERROR: ", "").replace("INFO: ", ""),
+                    resultado.startsWith("ERROR") ? "Error" : "Información",
+                    resultado.startsWith("ERROR") ? JOptionPane.ERROR_MESSAGE : JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+    } catch (NumberFormatException ex) {
+        JOptionPane.showMessageDialog(vista, 
+            "ID de empleado no válido",
+            "Error",
+            JOptionPane.ERROR_MESSAGE);
+    }
+}
+
     // Método para buscar un empleado
     private void buscarEmpleado() {
         try {
@@ -181,7 +189,8 @@ public class empleadoGestionControlador {
                     rs.getString("DPI"),
                     rs.getDate("FechaIngreso"),
                     rs.getDouble("SalarioBase"),
-                    rs.getInt("IdRol")
+                    rs.getInt("IdRol"),
+                    rs.getBoolean("Activo") ? "Activo" : "Inactivo"
                 };
                 modeloTabla.addRow(fila);
             }
@@ -190,6 +199,8 @@ public class empleadoGestionControlador {
         }
     }
 
+
+    
     private void limpiarCampos() {
         vista.txtID.setText("");
         vista.txtNombre.setText("");
@@ -336,6 +347,8 @@ public class empleadoGestionControlador {
             }
         }
     }
+
+    
 
     private String redondear(double valor) {
         BigDecimal bd = new BigDecimal(valor).setScale(2, RoundingMode.HALF_UP);

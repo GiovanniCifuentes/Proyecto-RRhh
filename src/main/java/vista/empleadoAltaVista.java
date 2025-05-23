@@ -1,13 +1,23 @@
 package vista;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import javax.swing.*;
+
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 public class empleadoAltaVista extends JFrame {
-    public JTextField txtNombre, txtApellido, txtDPI, txtSalarioBase, txtIdRol;
+    public JTextField txtNombre, txtApellido, txtDPI, txtSalarioBase, txtIdRol, txtmodo;
     public JButton btnAgregar;
     public JTable tablaEmpleados;
     public DefaultTableModel modeloTabla;

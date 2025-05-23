@@ -7,6 +7,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.time.LocalDate;
 import java.time.Period;
 
@@ -195,44 +196,62 @@ public class empleadoGestionBaja {
             System.out.println("❌ Error al bloquear empleado");
             e.printStackTrace();
         }
-    }
-
-    public void activar(int idEmpleado) {
-        String sql = "{CALL ActivarEmpleado(?)}";
-    
-        try (Connection conexion = conectar();
-                CallableStatement stmt = conexion.prepareCall(sql)) {
-    
-            stmt.setInt(1, idEmpleado);
-    
-            int filasAfectadas = stmt.executeUpdate();
-            if (filasAfectadas > 0) {
-                System.out.println("✅ Empleado activado correctamente. Filas afectadas: " + filasAfectadas);
-            } else {
-                System.out.println("⚠️ El empleado no existe o ya estaba activo");
-            }
-        } catch (SQLException e) {
-            System.out.println("❌ Error al activar empleado");
-            e.printStackTrace();
-        }
     }*/
 
-    // Método para ejecutar el procedimiento almacenado EliminarEmpleado
-    public void eliminar(int idEmpleado) {
-        String sql = "{CALL EliminarEmpleado(?)}";
-
-        try (Connection conexion = conectar();
-                CallableStatement stmt = conexion.prepareCall(sql)) {
-
-            stmt.setInt(1, idEmpleado);
-
-            int filasAfectadas = stmt.executeUpdate();
-            System.out.println("✅ Eliminación de empleado realizada. Filas afectadas: " + filasAfectadas);
-        } catch (SQLException e) {
-            System.out.println("❌ Error al eliminar empleado");
-            e.printStackTrace();
+    public String activar(int idEmpleado) {
+    String sql = "{? = CALL ActivarEmpleado(?)}"; // Nota el cambio en la sintaxis
+    
+    try (Connection conexion = conectar();
+         CallableStatement stmt = conexion.prepareCall(sql)) {
+        
+        // Registrar el parámetro de retorno (el primer ?)
+        stmt.registerOutParameter(1, Types.INTEGER);
+        
+        // Establecer el parámetro de entrada (el segundo ?)
+        stmt.setInt(2, idEmpleado);
+        
+        stmt.execute();
+        
+        int resultado = stmt.getInt(1); // Obtener el valor de retorno
+        
+        switch(resultado) {
+            case 1:
+                return "SUCCESS: Empleado activado correctamente";
+            case 0:
+                return "INFO: El empleado ya estaba activo";
+            case -1:
+                return "ERROR: El empleado no existe";
+            default:
+                return "ERROR: Resultado inesperado";
         }
+    } catch (SQLException e) {
+        System.err.println("❌ Error al activar empleado: " + e.getMessage());
+        return "ERROR: " + e.getMessage();
     }
+}
+
+    // Método para ejecutar el procedimiento almacenado EliminarEmpleado
+   public void eliminar(int idEmpleado) {
+    String sql = "{CALL EliminarEmpleado(?)}";
+
+    try (Connection conexion = conectar();
+         CallableStatement stmt = conexion.prepareCall(sql)) {
+
+        stmt.setInt(1, idEmpleado);
+
+        int filasAfectadas = stmt.executeUpdate();
+        if (filasAfectadas > 0) {
+            System.out.println("✅ Empleado eliminado correctamente. Filas afectadas: " + filasAfectadas);
+        } else {
+            System.out.println("⚠️ El empleado no existe o ya fue eliminado");
+            // Agregar mensaje más descriptivo
+            throw new SQLException("No se pudo eliminar el empleado. Verifique que existe y no tiene registros relacionados.");
+        }
+    } catch (SQLException e) {
+        System.out.println("❌ Error al eliminar empleado");
+        throw new RuntimeException("Error al eliminar empleado: " + e.getMessage(), e);
+    }
+}
 
 
     // Método para ejecutar el procedimiento almacenado BuscarEmpleado
@@ -246,6 +265,13 @@ public class empleadoGestionBaja {
         return stmt.executeQuery(); // Devuelve el ResultSet para procesarlo en el Controlador
         
     }
+
+    /*public ResultSet mostrarEmpleados(boolean incluirInactivos) throws SQLException {
+    String sql = incluirInactivos ? "{CALL MostrarTodosEmpleados}" : "{CALL MostrarEmpleados}";
+    Connection conexion = conectar();
+    CallableStatement stmt = conexion.prepareCall(sql);
+    return stmt.executeQuery();
+}*/
 
     public ResultSet mostrarEmpleados() throws SQLException {
         String sql = "{CALL MostrarEmpleados}"; // Llamada al procedimiento almacenado
