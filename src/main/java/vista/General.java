@@ -168,7 +168,7 @@ public class General extends javax.swing.JFrame {
     @Override
     public void actionPerformed(ActionEvent e) {
         // Definir la URL como constante dentro del método
-        final String url = "https://drive.google.com/file/d/1jKmYnsL5zKV2MLAWsCTFu1njyqbXMlfX/view?usp=drive_link";
+        final String url = "https://drive.google.com/file/d/1OuENBjq-rI7RF7xwJOzB55plftgJZhRJ/view?usp=sharing";
         
         System.out.println("Evento de clic detectado"); // Diagnóstico 1
         

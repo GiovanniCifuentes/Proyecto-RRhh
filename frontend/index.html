@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recursos Humanos Empresa S.A.</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h2>RH Empresa S.A.</h2>
+            </div>
+            
+            <div class="sidebar-menu">
+                <div class="menu-category">Principal</div>
+                <a href="#" class="menu-item active" data-module="dashboard">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+                
+                <div class="menu-category">Módulos</div>
+                <a href="#" class="menu-item" data-module="nomina">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                    <span>Nómina</span>
+                </a>
+                <a href="#" class="menu-item" data-module="gestion-rh">
+                    <i class="fas fa-user-tie"></i>
+                    <span>Gestión de RH</span>
+                </a>
+                <a href="#" class="menu-item" data-module="prestaciones">
+                    <i class="fas fa-hand-holding-heart"></i>
+                    <span>Prestaciones</span>
+                </a>
+                <a href="#" class="menu-item" data-module="indicadores">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Indicadores</span>
+                </a>
+                <a href="#" class="menu-item" data-module="reportes">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Reportes</span>
+                </a>
+                <a href="#" class="menu-item" data-module="administrativo">
+                    <i class="fas fa-cogs"></i>
+                    <span>Administrativo</span>
+                </a>
+                
+                <div class="menu-category">Sesión</div>
+                <a href="#" class="menu-item" data-module="perfil">
+                    <i class="fas fa-user-circle"></i>
+                    <span>Mi Perfil</span>
+                </a>
+                <a href="#" class="menu-item" id="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Cerrar Sesión</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <div class="header">
+                <button class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <div class="user-menu">
+                    <div class="user-info">
+                        <div class="user-name" id="header-username">Usuario</div>
+                        <div class="user-role" id="header-userrole">Rol</div>
+                    </div>
+                    <div class="user-avatar" id="header-avatar">
+                        US
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div class="content">
+                <!-- Dashboard View -->
+                <div id="dashboard-view" class="module-view active">
+                    <div class="page-title">
+                        <h1>Dashboard Principal</h1>
+                        <ul class="breadcrumb">
+                            <li>Inicio</li>
+                            <li>Dashboard</li>
+                        </ul>
+                    </div>
+
+                    <!-- Stats Cards -->
+                    <div class="dashboard-cards">
+                        <div class="card stat-card">
+                            <div class="stat-icon icon-primary">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="stat-empleados">0</h3>
+                                <p>Empleados Activos</p>
+                            </div>
+                        </div>
+                        
+                        <div class="card stat-card">
+                            <div class="stat-icon icon-success">
+                                <i class="fas fa-file-invoice-dollar"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="stat-nominas">0</h3>
+                                <p>Nóminas Este Mes</p>
+                            </div>
+                        </div>
+                        
+                        <div class="card stat-card">
+                            <div class="stat-icon icon-warning">
+                                <i class="fas fa-user-plus"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="stat-nuevos">0</h3>
+                                <p>Nuevos Ingresos</p>
+                            </div>
+                        </div>
+                        
+                        <div class="card stat-card">
+                            <div class="stat-icon icon-danger">
+                                <i class="fas fa-user-minus"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="stat-bajas">0</h3>
+                                <p>Bajas Recientes</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modules Grid -->
+                    <h2 style="margin-bottom: 20px; font-weight: 600; color: var(--primary);">Módulos del Sistema</h2>
+                    
+                    <div class="modules-grid">
+                        <!-- Nómina Module -->
+                        <div class="module-card" data-module="nomina">
+                            <div class="module-header">
+                                <div class="module-icon">
+                                    <i class="fas fa-file-invoice-dollar"></i>
+                                </div>
+                                <div class="module-title">Nómina</div>
+                            </div>
+                            <p class="module-description">
+                                Gestión completa de nóminas, cálculos automáticos, periodos de pago y reportes financieros.
+                            </p>
+                            <div class="module-actions">
+                                <a href="#" class="module-action" data-action="calculo-nomina">
+                                    <i class="fas fa-calculator"></i> Cálculo de Nómina
+                                </a>
+                                <a href="#" class="module-action" data-module="nomina">
+                                    <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <!-- Gestión de RH Module -->
+                        <div class="module-card" data-module="gestion-rh">
+                            <div class="module-header">
+                                <div class="module-icon">
+                                    <i class="fas fa-user-tie"></i>
+                                </div>
+                                <div class="module-title">Gestión de RH</div>
+                            </div>
+                            <p class="module-description">
+                                Administración de empleados, puestos, altas, bajas, historiales laborales y más.
+                            </p>
+                            <div class="module-actions">
+                                <a href="#" class="module-action" data-action="altas-empleados">
+                                    <i class="fas fa-user-plus"></i> Altas de Empleados
+                                </a>
+                                <a href="#" class="module-action" data-module="gestion-rh">
+                                    <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <!-- Prestaciones Module -->
+                        <div class="module-card" data-module="prestaciones">
+                            <div class="module-header">
+                                <div class="module-icon">
+                                    <i class="fas fa-hand-holding-heart"></i>
+                                </div>
+                                <div class="module-title">Prestaciones</div>
+                            </div>
+                            <p class="module-description">
+                                Administración de prestaciones, beneficios para empleados y programas de bienestar.
+                            </p>
+                            <div class="module-actions">
+                                <a href="#" class="module-action" data-action="ingresar-prestaciones">
+                                    <i class="fas fa-plus-circle"></i> Ingresar Prestaciones
+                                </a>
+                                <a href="#" class="module-action" data-module="prestaciones">
+                                    <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <!-- Indicadores Module -->
+                        <div class="module-card" data-module="indicadores">
+                            <div class="module-header">
+                                <div class="module-icon">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                                <div class="module-title">Indicadores</div>
+                            </div>
+                            <p class="module-description">
+                                Métricas de productividad, análisis de desempeño y estadísticas del personal.
+                            </p>
+                            <div class="module-actions">
+                                <a href="#" class="module-action" data-action="ver-metricas">
+                                    <i class="fas fa-chart-pie"></i> Ver Métricas
+                                </a>
+                                <a href="#" class="module-action" data-module="indicadores">
+                                    <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <!-- Reportes Module -->
+                        <div class="module-card" data-module="reportes">
+                            <div class="module-header">
+                                <div class="module-icon">
+                                    <i class="fas fa-chart-bar"></i>
+                                </div>
+                                <div class="module-title">Reportes</div>
+                            </div>
+                            <p class="module-description">
+                                Generación de reportes de RH, nómina, indicadores y reportes personalizados.
+                            </p>
+                            <div class="module-actions">
+                                <a href="#" class="module-action" data-action="generar-reportes">
+                                    <i class="fas fa-download"></i> Generar Reportes
+                                </a>
+                                <a href="#" class="module-action" data-module="reportes">
+                                    <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <!-- Administrativo Module -->
+                        <div class="module-card" data-module="administrativo">
+                            <div class="module-header">
+                                <div class="module-icon">
+                                    <i class="fas fa-cogs"></i>
+                                </div>
+                                <div class="module-title">Administrativo</div>
+                            </div>
+                            <p class="module-description">
+                                Configuración de usuarios, gestión de CVs y parámetros del sistema.
+                            </p>
+                            <div class="module-actions">
+                                <a href="#" class="module-action" data-action="admin-usuarios">
+                                    <i class="fas fa-user-cog"></i> Administrar Usuarios
+                                </a>
+                                <a href="#" class="module-action" data-module="administrativo">
+                                    <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="footer">
+                        <p>© 2023 Recursos Humanos Empresa S.A. - Todos los derechos reservados</p>
+                    </div>
+                </div>
+
+                <!-- Other module views will be loaded here -->
+                <div id="module-views-container"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

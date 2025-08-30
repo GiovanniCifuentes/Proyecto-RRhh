@@ -314,11 +314,11 @@ public class empleadoGestionControlador {
                 contentStream.endText();
                 yPosition -= lineHeight;
 
-                contentStream.beginText();
+                /*contentStream.beginText();
                 contentStream.newLineAtOffset(margin, yPosition);
                 contentStream.showText("Prima de antigüedad: Q" + redondear(liquidacion.getPrimaAntiguedad()));
                 contentStream.endText();
-                yPosition -= lineHeight * 2;
+                yPosition -= lineHeight * 2;*/
 
                 // Total liquidación
                 contentStream.setFont(fontBold, 14);
